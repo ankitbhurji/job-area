@@ -4,8 +4,25 @@ import people from '../../Images/people.svg'
 import rupee from '../../Images/rupee.svg'
 import flag from '../../Images/flag.svg'
 import { BiSearch } from 'react-icons/bi';
+import close from '../../Images/close.svg';
+import { useState } from 'react';
 
 function HomePage() {
+
+    const [skills, setSkills] = useState([])
+
+    function selectSkills(skill){
+        if(!skills.includes(skill)){
+            setSkills([...skills, skill])
+        }else{
+            return
+        }
+    }
+    function removeSkill(indexRemove){
+        setSkills(skills.filter((_, index)=>index !== indexRemove))
+    }
+
+
     return ( 
         <div>
             <div className={styles.container}>
@@ -34,14 +51,26 @@ function HomePage() {
                         </div>
                         <div className={styles.job_tagline}>Jobs you have posted as a recruiter are listed below</div>
                         <div className={styles.job_skils_container}>
-                            <select className={styles.job_skills_select}>
-                                <option>HTML</option>
-                                <option>CSS</option>
-                                <option>JAVASCRIPT</option>
-                            </select>
-                            <div className={styles.job_skill_selected}>fields</div>
-                            <div className={styles.job_skill_selected}>fields</div>
-                            <div className={styles.job_skill_selected}>javascripts</div>
+                            <div className={styles.job_skills_wrapper}>
+                                <div className={styles.job_skill_selectmenu}>
+                                    <select onChange={(event)=>{selectSkills(event.target.value)}}>
+                                        <option>HTML</option>
+                                        <option>CSS</option>
+                                        <option>JAVASCRIPT</option>
+                                        <option>REACT</option>
+                                        <option>NODE</option>
+                                    </select>
+                                </div>
+                                <div className={styles.skill_list_container}>
+                                    {
+                                    skills.map((skill, index)=>{
+                                        return(
+                                            <div key={index} className={styles.skill_list}>{skill}<img onClick={()=>{removeSkill(index)}} src={close}/></div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -71,7 +100,7 @@ function HomePage() {
                                     </div>
                                     <div className={styles.job_type_container}>
                                         <div className={styles.job_located}>Office</div>
-                                        <div className={styles.job_type}>Fulltime</div>
+                                        <div className={styles.job_type}>Full time</div>
                                     </div>
                                 </div>
                                 <div className={styles.job_edit_add_container}>

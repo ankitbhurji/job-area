@@ -70,7 +70,7 @@
 
     display: grid;
     /* grid-template-rows: 140px 50px 340px; */
-    grid-template-rows: 140px 30px auto;
+    grid-template-rows: 170px 30px auto;
     grid-template-columns: 1fr;
     grid-gap: 10px;
     padding: 20px;
@@ -139,9 +139,15 @@
 }
 .job_skils_container{
     /* background-color: cyan; */
-    
 }
-.job_skills_select{
+.job_skills_wrapper{
+    display: flex;
+}
+.job_skill_selectmenu{
+    /* background-color: red; */
+    width: 15%;
+}
+.job_skill_selectmenu>select{
     display: inline;
     margin-right: 10px;
     padding: 5px 15px 5px 15px;
@@ -152,17 +158,30 @@
     color:#9C9C9C;
     outline: none;
 }
-.job_skill_selected{
-    display: inline;
+.skill_list_container{
+    /* background-color:purple; */
+    width: 85%;
+    padding: 0 0 0 5px;
+    overflow-wrap: break-word;
+}
+.skill_list{
+    float: left;
     margin-right: 10px;
     background-color: #0038FF;
     color: white;
     padding: 5px 15px 5px 15px;
     font-size: 20px;
     border-radius: 5px;
+    margin-bottom: 10px;
 }
-
-
+.skill_list>img{
+    margin-left: 10px;
+    transition: 0.2s;
+    cursor: pointer
+}
+.skill_list>img:hover{
+    opacity: 0.8;
+}
 .job_count_container{
     /* background-color: palegoldenrod; */
     font-size: 20px;
@@ -173,14 +192,10 @@
 
 .job_list_containers{
     /* background-color: lightcoral; */
-
     display: grid;
     grid-template-rows: repeat(auto-fill, 120px);
     grid-template-columns: 1fr;
     grid-gap: 10px;
-    /* padding: 10px; */
-    /* overflow: auto; */
-    
 }
 .job_list_container{
     /* background-color: goldenrod; */
@@ -193,7 +208,7 @@
 }
 .job_list_image{
     /* margin: auto 0 auto 0; */
-    margin-top: 16px;
+    margin-top: 15px;
 }
 .job_list_image>img{
     border-radius: 10px;
@@ -255,29 +270,31 @@
     display: flex;
     /* background-color: red; */
     justify-content: space-between;
-    width: 50%;
+    width: 55%;
     margin: 8px 0 0 0;
 }
 .job_located{
     color: #0038FF;
     font-size: 20px;
     font-family: Roboto;
+    font-weight: bold;
 }
 .job_type{
     color: #0038FF;
     font-size: 20px;
     font-family: Roboto;
+    font-weight: bold;
 }
 
 .job_edit_add_container{
     margin: auto 0 auto 0;
-    /* background-color: red; */
     width: 265px;
 }
 .job_post_time{
     font-size: 25px;
     font-family: Roboto;
     color: #9C9C9C;
+    margin: 0 0 0 145px;
 }
 .job_buttons_container{
     display: flex;
@@ -292,6 +309,11 @@
     padding: 5px 30px 5px 30px;
     color: white;
     font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.edit_button>button:hover{
+    opacity: 0.8;
 }
 .copy_link_button>button{
     background-color: white;
@@ -300,4 +322,10 @@
     padding: 5px 15px 5px 15px;
     color: #9C9C9C;
     font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.copy_link_button>button:hover{
+    /* opacity: 0.8; */
+    color: #0038FF;
 }
