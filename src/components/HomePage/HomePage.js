@@ -32,7 +32,6 @@ function HomePage() {
                             <div className={styles.header_logo}><img src={mountain}/></div>
                             <div className={styles.header_find_my_job}>Findmyjob</div>
                         </div>
-                        {/* <div className={styles.header_tagline}>Find your next remote job at companies like <label>swigy</label>, <label>nike</label>, and <label>cuvette</label>.</div> */}
                     {/* </div> */}
                     <div className={styles.heading_photo_container}>
                         <div className={styles.header_hello}>Hello! Recruiter</div>
