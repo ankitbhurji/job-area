@@ -1,12 +1,12 @@
-import styles from './AddPage.module.css'
+import styles from './EditPage.module.css';
 
-function AddPage(props) {
+function EditPage(props) {
 
     function closePage(){
-        props.pagekey({isAddPage:false})
+        props.pagekey({isEditPage:false})
     }
 
-    return (
+    return ( 
         <div className={styles.body}>
             <div className={styles.add_page_maincontainer}>
                 <div className={styles.add_page_container}>
@@ -76,7 +76,7 @@ function AddPage(props) {
                         </div>
                         <div className={styles.button_container}>
                             <div className={styles.cancel_button}><button onClick={closePage}>Cancel</button></div>
-                            <div className={styles.add_button}><button>+ Add Job</button></div>
+                            <div className={styles.add_button}><button>+ Edit Job</button></div>
                         </div>
                     </div>
                 </div>
@@ -85,4 +85,4 @@ function AddPage(props) {
      );
 }
 
-export default AddPage;
+export default EditPage;

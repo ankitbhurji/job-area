@@ -6,21 +6,40 @@ import flag from '../../Images/flag.svg'
 import { BiSearch } from 'react-icons/bi';
 import close from '../../Images/close.svg';
 import { useState } from 'react';
+import AddPage from '../AddPage/AddPage';
+import { useNavigate } from "react-router-dom";
+import EditPage from '../EditPage/EditPage';
 
 function HomePage() {
+    const navigate = useNavigate();
 
     const [skills, setSkills] = useState([])
+    const [pageKeys, setPageKeys] = useState({
+        isAddPage:false,
+        isEditPage:false
+    })
+    console.log(pageKeys)
 
     function selectSkills(skill){
-        if(!skills.includes(skill)){
-            setSkills([...skills, skill])
-        }else{
-            return
+        if(!(skill=="SELECT")){
+            if(!skills.includes(skill)){
+                setSkills([...skills, skill])
+            }else{
+                alert('field already exist')
+            }
         }
     }
     function removeSkill(indexRemove){
         setSkills(skills.filter((_, index)=>index !== indexRemove))
     }
+    function addJob(){
+        // navigate('/add')
+        setPageKeys({...pageKeys, isAddPage:true})
+    }
+    function editJob(){
+        setPageKeys({...pageKeys, isEditPage:true})
+    }
+    console.log(pageKeys)
 
 
     return ( 
@@ -46,13 +65,16 @@ function HomePage() {
                         <div className={styles.job_search_top}>
                             <div className={styles.job_search_icon}><BiSearch/></div>
                             <div className={styles.job_search}><input type='search' placeholder='Job title'/></div>
-                            <div className={styles.job_addjob}><button>+ Add Job</button></div>
+                            <div className={styles.job_addjob}>
+                                <button onClick={addJob}>+ Add Job</button>
+                            </div>
                         </div>
                         <div className={styles.job_tagline}>Jobs you have posted as a recruiter are listed below</div>
                         <div className={styles.job_skils_container}>
                             <div className={styles.job_skills_wrapper}>
                                 <div className={styles.job_skill_selectmenu}>
                                     <select onChange={(event)=>{selectSkills(event.target.value)}}>
+                                        <option>SELECT</option>
                                         <option>HTML</option>
                                         <option>CSS</option>
                                         <option>JAVASCRIPT</option>
@@ -105,7 +127,7 @@ function HomePage() {
                                 <div className={styles.job_edit_add_container}>
                                     <div className={styles.job_post_time}>2 hours ago</div>
                                     <div className={styles.job_buttons_container}>
-                                        <div className={styles.edit_button}><button>Edit job</button></div>
+                                        <div className={styles.edit_button}><button onClick={editJob}>Edit job</button></div>
                                         <div className={styles.copy_link_button}><button>Copy Link</button></div>
                                     </div>
                                 </div>
@@ -122,6 +144,15 @@ function HomePage() {
                     </div>
                 </div>
             </div>
+            {
+            pageKeys.isAddPage? 
+            <AddPage pagekey={setPageKeys}/>
+            :
+            pageKeys.isEditPage?
+            <EditPage pagekey={setPageKeys}/>
+            :
+            ''
+            }
         </div>
      );
 }
