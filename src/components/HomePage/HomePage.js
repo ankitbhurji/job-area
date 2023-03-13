@@ -5,10 +5,17 @@ import rupee from '../../Images/rupee.svg'
 import flag from '../../Images/flag.svg'
 import { BiSearch } from 'react-icons/bi';
 import close from '../../Images/close.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddPage from '../AddPage/AddPage';
 import { useNavigate } from "react-router-dom";
 import EditPage from '../EditPage/EditPage';
+import GetSKillsAPi from '../../api/GetSkillsApi';
+import FindJobsApi from '../../api/FindJobsApi';
+import useClipboard from 'react-hook-clipboard'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 function HomePage() {
     const navigate = useNavigate();
@@ -18,14 +25,16 @@ function HomePage() {
         isAddPage:false,
         isEditPage:false
     })
-    console.log(pageKeys)
+    const [skillData, setSkillData] = useState([{}])
+    const [jobData, setJobData] = useState([{}])
+    const [clipboard, copyToClipboard] = useClipboard()
 
     function selectSkills(skill){
         if(!(skill=="SELECT")){
             if(!skills.includes(skill)){
                 setSkills([...skills, skill])
             }else{
-                alert('field already exist')
+                alert('field already exist')    
             }
         }
     }
@@ -39,7 +48,32 @@ function HomePage() {
     function editJob(){
         setPageKeys({...pageKeys, isEditPage:true})
     }
-    console.log(pageKeys)
+
+    async function getSkillsApi(){
+        const getSkills = await GetSKillsAPi()
+        setSkillData(getSkills.data)
+        // console.log(getSkill)
+    }
+    
+    async function getJobsApi(){
+        const getJobData = await FindJobsApi(skills)
+        setJobData(getJobData.data)
+        // console.log(getJobData)
+    }
+
+    function jobDetails(job_id){
+        // console.log('details', id)
+        navigate(`/${job_id}`)
+    }
+    function copyLink(id){
+        copyToClipboard(`${window.location.href}${id}`)
+        toast("Link Copied!")
+    }
+
+    useEffect(()=>{
+        getSkillsApi()
+        getJobsApi()
+    }, [skills])
 
 
     return ( 
@@ -75,11 +109,16 @@ function HomePage() {
                                 <div className={styles.job_skill_selectmenu}>
                                     <select onChange={(event)=>{selectSkills(event.target.value)}}>
                                         <option>SELECT</option>
-                                        <option>HTML</option>
+                                        {
+                                           skillData.length>1 && skillData.map((values, index)=>{
+                                                return <option key={index}>{values.skill.toUpperCase()}</option>
+                                            })
+                                        }
+                                        {/* <option>HTML</option>
                                         <option>CSS</option>
                                         <option>JAVASCRIPT</option>
                                         <option>REACT</option>
-                                        <option>NODE</option>
+                                        <option>NODE</option> */}
                                     </select>
                                 </div>
                                 <div className={styles.skill_list_container}>
@@ -95,7 +134,7 @@ function HomePage() {
                         </div>
                     </div>
 
-                    <div className={styles.job_count_container}>100 + Jobs</div>
+                    <div className={styles.job_count_container}>{jobData.length} + Jobs</div>
                     
                     <div className={styles.job_list_containers}>
                         <div className={styles.job_list_container}>
@@ -133,6 +172,52 @@ function HomePage() {
                                 </div>
                             </div>
                         </div>
+
+
+                        {
+                            jobData.map((values, index)=>{
+                                return(
+                                    <div key={index} className={styles.job_list_container}>
+                                        <div className={styles.job_list_image}><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="Avatar" style={{width:'52px', height:'52px'}}/></div>
+                                        <div className={styles.job_list_info}>
+                                            <div onClick={()=>{jobDetails(values._id)}} className={styles.list_info_1}>
+                                                <div className={styles.job_position}>
+                                                    {values.jobPosition}
+                                                </div>
+                                                <div className={styles.job_info}>
+                                                    <div className={styles.job_people}>
+                                                        <div><img src={people}/></div>
+                                                        <div className={styles.job_people_count}>11-50</div>
+                                                    </div>
+                                                    <div className={styles.job_sallery}>
+                                                        <div><img src={rupee}/></div>
+                                                        <div className={styles.job_people_sallery}>{values.monthlySallery}</div>
+                                                    </div>
+                                                    <div className={styles.job_location}>
+                                                        <div><img src={flag}/></div>
+                                                        <div className={styles.job_people_location}>{values.location}</div>
+                                                    </div>
+                                                </div>
+                                                <div className={styles.job_type_container}>
+                                                    <div className={styles.job_located}>{values.workFrom}</div>
+                                                    <div className={styles.job_type}>{values.jobType}</div>
+                                                </div>
+                                            </div>
+                                            <div className={styles.job_edit_add_container}>
+                                                <div className={styles.job_post_time}>2 hours ago</div>
+                                                <div className={styles.job_buttons_container}>
+                                                    <div className={styles.edit_button}><button onClick={editJob}>Edit job</button></div>
+                                                    <div className={styles.copy_link_button}><button onClick={()=>{copyLink(values._id)}}>Copy Link</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                )
+                            })
+                        }
+
+                        
+                        
                         <div className={styles.job_list_container}></div>
                         <div className={styles.job_list_container}></div>
                         <div className={styles.job_list_container}></div>
@@ -153,6 +238,11 @@ function HomePage() {
             :
             ''
             }
+            <ToastContainer
+                position="top-center"
+                autoClose={false}
+                closeOnClick
+            />
         </div>
      );
 }

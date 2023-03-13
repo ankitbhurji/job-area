@@ -150,14 +150,17 @@
 }
 .job_skill_selectmenu>select{
     display: inline;
-    margin-right: 10px;
-    padding: 5px 15px 5px 15px;
+    /* margin-right: 10px; */
+    padding: 4px 0 4px 0;
     width: 140px;
     font-size: 18px;
     border: 2px solid #9C9C9C;
     border-radius: 5px;
     color:#9C9C9C;
     outline: none;
+}
+.job_skill_selectmenu>select>option{
+    font-size: 18px;
 }
 .skill_list_container{
     /* background-color:purple; */
