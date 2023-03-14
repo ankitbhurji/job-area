@@ -27,9 +27,6 @@ function EditPage(props) {
     }
   
     function editPage(editedFileds, editedSkills){
-        // console.log(editedFileds, editedSkills)
-        // EditJobDetails(editedFileds, editedSkills)
-
         if(!editInputs.companyName){
             toast.error('Please Enter Company Name!')
         }else if(!editInputs.logoUrl){
@@ -53,16 +50,13 @@ function EditPage(props) {
         }
         else{
             EditJobDetails(editedFileds, editedSkills)
-            toast.success('Added Job Successfuly', {autoClose:3000})
+            toast.success('Added Job Successfuly', {autoClose:1000})
         }
     }
 
     function closePage(){
         props.pagekey({isEditPage:false})
     }
-
-    // console.log(props.editJobData)
-    // console.log(skill);
 
     useState(()=>{
         const skillArr = props.editJobData.skillRequired

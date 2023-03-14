@@ -14,6 +14,8 @@ import FindJobsApi from '../../api/FindJobsApi';
 import useClipboard from 'react-hook-clipboard'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDebounce } from 'use-lodash-debounce'
+import SearchJobsApi from '../../api/SearchJobsApi';
 
 
 
@@ -29,6 +31,8 @@ function HomePage() {
     const [jobData, setJobData] = useState([{}])
     const [clipboard, copyToClipboard] = useClipboard()
     const [editJobData, setEditJobData] = useState([{}])
+    const [searchText, setSearchText] = useState('')
+    const debouncedValue = useDebounce(searchText, 1000)
 
     function selectSkills(skill){
         if(!(skill=="SELECT")){
@@ -42,42 +46,52 @@ function HomePage() {
     function removeSkill(indexRemove){
         setSkills(skills.filter((_, index)=>index !== indexRemove))
     }
+
     function addJob(){
-        // navigate('/add')
         setPageKeys({...pageKeys, isAddPage:true})
     }
+
     function editJob(data){
         setPageKeys({...pageKeys, isEditPage:true})
         setEditJobData(data)
-        // console.log(data)
     }
-    // console.log(editJobData)
 
     async function getSkillsApi(){
         const getSkills = await GetSKillsAPi()
         setSkillData(getSkills.data)
-        // console.log(getSkill)
     }
     
     async function getJobsApi(){
         const getJobData = await FindJobsApi(skills)
         setJobData(getJobData.data)
-        // console.log(getJobData)
     }
 
     function jobDetails(job_id){
-        // console.log('details', id)
         navigate(`/${job_id}`)
     }
+
     function copyLink(id){
         copyToClipboard(`${window.location.href}${id}`)
         toast.success("Link Copied!")
+    }
+
+    async function searchField(){
+        if(debouncedValue){
+            const searchJob = await SearchJobsApi(debouncedValue)
+            setJobData(searchJob.data)
+        }else{
+            getJobsApi()
+        }
     }
 
     useEffect(()=>{
         getSkillsApi()
         getJobsApi()
     }, [skills])
+
+    useEffect(()=>{
+        searchField()
+    }, [debouncedValue])
 
 
     return ( 
@@ -102,7 +116,7 @@ function HomePage() {
                     <div className={styles.job_search_container}>
                         <div className={styles.job_search_top}>
                             <div className={styles.job_search_icon}><BiSearch/></div>
-                            <div className={styles.job_search}><input type='search' placeholder='Job title'/></div>
+                            <div className={styles.job_search}><input onChange={(e)=>{setSearchText(e.target.value)}} value={searchText} type='search' placeholder='Job title'/></div>
                             <div className={styles.job_addjob}>
                                 <button onClick={addJob}>+ Add Job</button>
                             </div>
@@ -222,14 +236,14 @@ function HomePage() {
 
                         
                         
+                        {/* <div className={styles.job_list_container}></div>
                         <div className={styles.job_list_container}></div>
                         <div className={styles.job_list_container}></div>
                         <div className={styles.job_list_container}></div>
                         <div className={styles.job_list_container}></div>
                         <div className={styles.job_list_container}></div>
                         <div className={styles.job_list_container}></div>
-                        <div className={styles.job_list_container}></div>
-                        <div className={styles.job_list_container}></div>
+                        <div className={styles.job_list_container}></div> */}
                     </div>
                 </div>
             </div>

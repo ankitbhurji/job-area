@@ -59,7 +59,7 @@ function AddPage(props) {
         }
         else{
             // console.log('api call');
-            // AddJobApi(allInputs)
+            AddJobApi(allInputs)
             toast.success('Added Job Successfuly', {autoClose:3000})
         }
    }
