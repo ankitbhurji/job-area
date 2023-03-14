@@ -2,6 +2,9 @@ import styles from './AddPage.module.css'
 import { useState } from 'react';
 import GetSKillsAPi from '../../api/GetSkillsApi';
 import AddJobApi from '../../api/AddJobApi';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddPage(props) {
 
@@ -23,16 +26,45 @@ function AddPage(props) {
    })
 //    console.log(allInputs)
 
-   function handleInputChange(e){
+    function handleInputChange(e){
         setAllInputs({
             ...allInputs,
             [e.target.name]: e.target.value
         })
    }
 
+//    console.log(allInputs.companyName);
+
    function addjob(){
-        AddJobApi(allInputs)
+        if(!allInputs.companyName){
+            toast.error('Please Enter Company Name!')
+        }else if(!allInputs.logoUrl){
+            toast.error("Please Enter Company Logo Url!")
+        }else if(!allInputs.jobPosition){
+            toast.error("Please Enter Job Position!")
+        }else if(!allInputs.monthlySallery){
+            toast.error("Please Enter Monthly Sallery!")
+        }else if(!allInputs.jobType){
+            toast.error("Please Select Job Type!")
+        }else if(!allInputs.workFrom){
+            toast.error("Please Select Place!")
+        }else if(!allInputs.location){
+            toast.error("Please Enter Job Location!")
+        }else if(!allInputs.jobDiscription){
+            toast.error("Please Enter Job Discription!")
+        }else if(!allInputs.aboutCompany){
+            toast.error("Please Enter About Company!")
+        }else if(!allInputs.requiredSkill){
+            toast.error("Please Enter Skills!")
+        }
+        else{
+            // console.log('api call');
+            // AddJobApi(allInputs)
+            toast.success('Added Job Successfuly', {autoClose:3000})
+        }
    }
+
+
     return (
         <div className={styles.body}>
             <div className={styles.add_page_maincontainer}>
@@ -53,7 +85,7 @@ function AddPage(props) {
                             <div className={styles.field}><input name='companyName' onChange={handleInputChange} type='text' /></div>
                         </div>
                         <div className={styles.input_container}>
-                            <div className={styles.label}>Add Logo Url</div>
+                            <div className={styles.label}>Add Logo Url</div> 
                             <div className={styles.field}><input name='logoUrl' onChange={handleInputChange} type='text' /></div>
                         </div>
                         <div className={styles.input_container}>

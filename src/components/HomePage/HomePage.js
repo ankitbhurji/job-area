@@ -28,6 +28,7 @@ function HomePage() {
     const [skillData, setSkillData] = useState([{}])
     const [jobData, setJobData] = useState([{}])
     const [clipboard, copyToClipboard] = useClipboard()
+    const [editJobData, setEditJobData] = useState([{}])
 
     function selectSkills(skill){
         if(!(skill=="SELECT")){
@@ -45,9 +46,12 @@ function HomePage() {
         // navigate('/add')
         setPageKeys({...pageKeys, isAddPage:true})
     }
-    function editJob(){
+    function editJob(data){
         setPageKeys({...pageKeys, isEditPage:true})
+        setEditJobData(data)
+        // console.log(data)
     }
+    // console.log(editJobData)
 
     async function getSkillsApi(){
         const getSkills = await GetSKillsAPi()
@@ -67,7 +71,7 @@ function HomePage() {
     }
     function copyLink(id){
         copyToClipboard(`${window.location.href}${id}`)
-        toast("Link Copied!")
+        toast.success("Link Copied!")
     }
 
     useEffect(()=>{
@@ -137,7 +141,7 @@ function HomePage() {
                     <div className={styles.job_count_container}>{jobData.length} + Jobs</div>
                     
                     <div className={styles.job_list_containers}>
-                        <div className={styles.job_list_container}>
+                        {/* <div className={styles.job_list_container}>
                             <div className={styles.job_list_image}><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="Avatar" style={{width:'52px', height:'52px'}}/></div>
                             <div className={styles.job_list_info}>
                                 <div className={styles.list_info_1}>
@@ -171,7 +175,7 @@ function HomePage() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
 
                         {
@@ -206,7 +210,7 @@ function HomePage() {
                                             <div className={styles.job_edit_add_container}>
                                                 <div className={styles.job_post_time}>2 hours ago</div>
                                                 <div className={styles.job_buttons_container}>
-                                                    <div className={styles.edit_button}><button onClick={editJob}>Edit job</button></div>
+                                                    <div className={styles.edit_button}><button onClick={()=>{editJob(values)}}>Edit job</button></div>
                                                     <div className={styles.copy_link_button}><button onClick={()=>{copyLink(values._id)}}>Copy Link</button></div>
                                                 </div>
                                             </div>
@@ -234,7 +238,7 @@ function HomePage() {
             <AddPage pagekey={setPageKeys}/>
             :
             pageKeys.isEditPage?
-            <EditPage pagekey={setPageKeys}/>
+            <EditPage editJobData={editJobData} pagekey={setPageKeys}/>
             :
             ''
             }
