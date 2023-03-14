@@ -30,7 +30,7 @@ function DetailsPage() {
 
     function copyLink(){
         copyToClipboard(window.location.href)
-        toast("Link Copied!")
+        toast.success("Link Copied!")
     }
 
     useEffect(()=>{

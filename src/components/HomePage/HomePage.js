@@ -16,7 +16,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDebounce } from 'use-lodash-debounce'
 import SearchJobsApi from '../../api/SearchJobsApi';
+import TimeAgo from "react-timeago";
 
+
+
+const d = 'Tue Mar 14 2023 23:13:00 GMT+0530 (India Standard Time)';
+const year2002 = new Date(2002, 22, 2);
 
 
 function HomePage() {
@@ -87,7 +92,7 @@ function HomePage() {
     useEffect(()=>{
         getSkillsApi()
         getJobsApi()
-    }, [skills])
+    }, [skills, pageKeys])
 
     useEffect(()=>{
         searchField()
@@ -222,7 +227,7 @@ function HomePage() {
                                                 </div>
                                             </div>
                                             <div className={styles.job_edit_add_container}>
-                                                <div className={styles.job_post_time}>2 hours ago</div>
+                                                <div className={styles.job_post_time}><TimeAgo date={values.time} /></div>
                                                 <div className={styles.job_buttons_container}>
                                                     <div className={styles.edit_button}><button onClick={()=>{editJob(values)}}>Edit job</button></div>
                                                     <div className={styles.copy_link_button}><button onClick={()=>{copyLink(values._id)}}>Copy Link</button></div>

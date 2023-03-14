@@ -60,6 +60,7 @@ function AddPage(props) {
         else{
             // console.log('api call');
             AddJobApi(allInputs)
+            props.pagekey({isAddPage:false})
             toast.success('Added Job Successfuly', {autoClose:3000})
         }
    }

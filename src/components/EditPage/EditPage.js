@@ -23,7 +23,6 @@ function EditPage(props) {
             [e.target.name]: e.target.value
             })
         }
-
     }
   
     function editPage(editedFileds, editedSkills){
@@ -50,6 +49,7 @@ function EditPage(props) {
         }
         else{
             EditJobDetails(editedFileds, editedSkills)
+            props.pagekey({isEditPage:false})
             toast.success('Added Job Successfuly', {autoClose:1000})
         }
     }
