@@ -18,10 +18,12 @@ import { useDebounce } from 'use-lodash-debounce'
 import SearchJobsApi from '../../api/SearchJobsApi';
 import TimeAgo from "react-timeago";
 
+import AllJobs from '../../api/AllJobs';
+import { TbCurrencyRupee } from 'react-icons/tb';
+import { MdPeopleAlt } from 'react-icons/md';
 
 
-const d = 'Tue Mar 14 2023 23:13:00 GMT+0530 (India Standard Time)';
-const year2002 = new Date(2002, 22, 2);
+
 
 
 function HomePage() {
@@ -48,6 +50,7 @@ function HomePage() {
             }
         }
     }
+
     function removeSkill(indexRemove){
         setSkills(skills.filter((_, index)=>index !== indexRemove))
     }
@@ -61,6 +64,20 @@ function HomePage() {
         setEditJobData(data)
     }
 
+    function jobDetails(job_id){
+        navigate(`/${job_id}`)
+    }
+
+    function copyLink(id){
+        copyToClipboard(`${window.location.href}${id}`)
+        toast.success("Link Copied!")
+    }
+
+    async function jobs(){
+        const allJobs = await AllJobs()
+        setJobData(allJobs.data)
+    }
+    
     async function getSkillsApi(){
         const getSkills = await GetSKillsAPi()
         setSkillData(getSkills.data)
@@ -71,15 +88,6 @@ function HomePage() {
         setJobData(getJobData.data)
     }
 
-    function jobDetails(job_id){
-        navigate(`/${job_id}`)
-    }
-
-    function copyLink(id){
-        copyToClipboard(`${window.location.href}${id}`)
-        toast.success("Link Copied!")
-    }
-
     async function searchField(){
         if(debouncedValue){
             const searchJob = await SearchJobsApi(debouncedValue)
@@ -88,15 +96,20 @@ function HomePage() {
             getJobsApi()
         }
     }
+    
+
+
 
     useEffect(()=>{
         getSkillsApi()
         getJobsApi()
-    }, [skills, pageKeys])
+    }, [skills])
 
     useEffect(()=>{
         searchField()
     }, [debouncedValue])
+
+
 
 
     return ( 
@@ -201,19 +214,21 @@ function HomePage() {
                             jobData.map((values, index)=>{
                                 return(
                                     <div key={index} className={styles.job_list_container}>
-                                        <div className={styles.job_list_image}><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="Avatar" style={{width:'52px', height:'52px'}}/></div>
-                                        <div className={styles.job_list_info}>
-                                            <div onClick={()=>{jobDetails(values._id)}} className={styles.list_info_1}>
+                                        <div onClick={()=>{jobDetails(values._id)}} className={styles.job_list_image}><img src={values.logoUrl} alt="Avatar" style={{width:'52px', height:'52px'}}/></div>
+                                        <div onClick={()=>{jobDetails(values._id)}} className={styles.job_list_info}>
+                                            <div className={styles.list_info_1}>
                                                 <div className={styles.job_position}>
                                                     {values.jobPosition}
                                                 </div>
                                                 <div className={styles.job_info}>
                                                     <div className={styles.job_people}>
-                                                        <div><img src={people}/></div>
+                                                        {/* <div><img src={people}/></div> */}
+                                                        <div className={styles.people_logo}><MdPeopleAlt size={22}/></div>
                                                         <div className={styles.job_people_count}>11-50</div>
                                                     </div>
                                                     <div className={styles.job_sallery}>
-                                                        <div><img src={rupee}/></div>
+                                                        {/* <div><img src={rupee}/></div> */}
+                                                        <div className={styles.rupee_logo}><TbCurrencyRupee size={22}/></div>
                                                         <div className={styles.job_people_sallery}>{values.monthlySallery}</div>
                                                     </div>
                                                     <div className={styles.job_location}>
@@ -226,12 +241,12 @@ function HomePage() {
                                                     <div className={styles.job_type}>{values.jobType}</div>
                                                 </div>
                                             </div>
-                                            <div className={styles.job_edit_add_container}>
-                                                <div className={styles.job_post_time}><TimeAgo date={values.time} /></div>
-                                                <div className={styles.job_buttons_container}>
-                                                    <div className={styles.edit_button}><button onClick={()=>{editJob(values)}}>Edit job</button></div>
-                                                    <div className={styles.copy_link_button}><button onClick={()=>{copyLink(values._id)}}>Copy Link</button></div>
-                                                </div>
+                                        </div>
+                                        <div className={styles.job_edit_add_container}>
+                                            <div className={styles.job_post_time}><TimeAgo date={values.time} /></div>
+                                            <div className={styles.job_buttons_container}>
+                                                <div className={styles.edit_button}><button onClick={()=>{editJob(values)}}>Edit job</button></div>
+                                                <div className={styles.copy_link_button}><button onClick={()=>{copyLink(values._id)}}>Copy Link</button></div>
                                             </div>
                                         </div>
                                     </div>  
@@ -254,10 +269,10 @@ function HomePage() {
             </div>
             {
             pageKeys.isAddPage? 
-            <AddPage pagekey={setPageKeys}/>
+            <AddPage jobs={jobs} getJobsApi={getJobsApi} pagekey={setPageKeys}/>
             :
             pageKeys.isEditPage?
-            <EditPage editJobData={editJobData} pagekey={setPageKeys}/>
+            <EditPage jobs={jobs} editJobData={editJobData} pagekey={setPageKeys}/>
             :
             ''
             }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './EditPage.module.css';
 import EditJobDetails from '../../api/EditJobDetails';
 import { ToastContainer, toast } from 'react-toastify';
@@ -49,8 +49,9 @@ function EditPage(props) {
         }
         else{
             EditJobDetails(editedFileds, editedSkills)
+            props.jobs()
             props.pagekey({isEditPage:false})
-            toast.success('Added Job Successfuly', {autoClose:1000})
+            toast.success('Added Job Successfuly', {autoClose:500})
         }
     }
 
@@ -63,6 +64,7 @@ function EditPage(props) {
         const skillStr = skillArr.join(',')
         setSkill(skillStr)
     },[])
+
 
     return ( 
         <div className={styles.body}>

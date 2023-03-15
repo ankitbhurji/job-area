@@ -15,6 +15,8 @@ import { useParams } from 'react-router-dom';
 import useClipboard from 'react-hook-clipboard'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TimeAgo from "react-timeago";
+import { TbCurrencyRupee } from 'react-icons/tb';
 
 function DetailsPage() {
 
@@ -60,12 +62,12 @@ function DetailsPage() {
 
                 <div className={styles.info_container}>
                     <div className={styles.profile_info_container}>
-                        <div className={styles.image_container}><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="Avatar" style={{width:'70px', height:'70px'}}/></div>
+                        <div className={styles.image_container}><img src={jobInformation.logoUrl} alt="Avatar" style={{width:'70px', height:'70px'}}/></div>
                         <div className={styles.details_container}>
                             <div className={styles.details}>
                                 <div className={styles.post}>{jobInformation.jobPosition}</div>
                                 <div className={styles.location}>{jobInformation.companyName} | {jobInformation.location}, india</div>
-                                <div className={styles.time}>Posted 10 hours ago</div>
+                                <div className={styles.time}>Posted <TimeAgo date={jobInformation.time} /></div>
                             </div>
                             <div className={styles.copy_button}><button onClick={copyLink}>Copy Link</button></div>
                         </div>
@@ -74,7 +76,7 @@ function DetailsPage() {
                     <div className={styles.job_info_container}>
                         <div className={styles.offer_container}>
                             <div className={styles.tag}>Job Offer</div>
-                            <div className={styles.tag_info}>{jobInformation.monthlySallery} per month</div>
+                            <div className={styles.tag_info}><div className={styles.rupee_logo}><TbCurrencyRupee size={22}/></div>{jobInformation.monthlySallery} per month</div>
                         </div>
                         <div className={styles.Mode_container}>
                             <div className={styles.tag}>Job Mode</div>

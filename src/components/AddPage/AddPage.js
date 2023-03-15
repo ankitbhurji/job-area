@@ -8,11 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function AddPage(props) {
 
-    function closePage(){
-        props.pagekey({isAddPage:false})
-    }
+    
 
-   const [allInputs, setAllInputs] = useState({
+    const [allInputs, setAllInputs] = useState({
         // companyName:'',
         // logoUrl:'',
         // jobPosition:'',
@@ -24,15 +22,17 @@ function AddPage(props) {
         // aboutCompany:'',
         // requiredSkill:''
    })
-//    console.log(allInputs)
 
     function handleInputChange(e){
         setAllInputs({
             ...allInputs,
             [e.target.name]: e.target.value
         })
-   }
+    }
 
+    function closePage(){
+        props.pagekey({isAddPage:false})
+    }
 //    console.log(allInputs.companyName);
 
    function addjob(){
@@ -60,8 +60,10 @@ function AddPage(props) {
         else{
             // console.log('api call');
             AddJobApi(allInputs)
+            // props.getJobsApi()
+            props.jobs()
             props.pagekey({isAddPage:false})
-            toast.success('Added Job Successfuly', {autoClose:3000})
+            toast.success('Added Job Successfuly', {autoClose:500})
         }
    }
 

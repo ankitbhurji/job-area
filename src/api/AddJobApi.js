@@ -1,6 +1,7 @@
 import axios from "axios";
 
 async function AddJobApi(allInputs) {
+    const time =  new Date()
     const payload = {
         // myname:'ankit bhurji'
         companyName:        allInputs.companyName,
@@ -12,7 +13,8 @@ async function AddJobApi(allInputs) {
         location:           allInputs.location,
         jobDiscription:     allInputs.jobDiscription,
         aboutCompany:       allInputs.aboutCompany,
-        requiredSkill:      allInputs.requiredSkill
+        requiredSkill:      allInputs.requiredSkill,
+        time:               time
     }
     axios({
         method: 'post',

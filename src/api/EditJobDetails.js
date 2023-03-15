@@ -1,7 +1,7 @@
 import axios from "axios";
 
 function EditJobDetails(allInputs, allSkills) {
-    // console.log(allInputs, allSkills);
+    const time =  new Date()
     const payload = {
         userId:             allInputs._id,
         companyName:        allInputs.companyName,
@@ -14,7 +14,8 @@ function EditJobDetails(allInputs, allSkills) {
         jobDiscription:     allInputs.jobDiscription,
         aboutCompany:       allInputs.aboutCompany,
         // requiredSkill:      allInputs.requiredSkill
-        requiredSkill:      allSkills
+        requiredSkill:      allSkills, 
+        time:               time
     }
     axios({
         method: 'put',
