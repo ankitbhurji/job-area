@@ -35,7 +35,7 @@ function AddPage(props) {
     }
 //    console.log(allInputs.companyName);
 
-   function addjob(){
+    async function addjob(){
         if(!allInputs.companyName){
             toast.error('Please Enter Company Name!')
         }else if(!allInputs.logoUrl){
@@ -59,9 +59,8 @@ function AddPage(props) {
         }
         else{
             // console.log('api call');
-            AddJobApi(allInputs)
-            // props.getJobsApi()
-            props.jobs()
+            const postJobs = await AddJobApi(allInputs)
+            // console.log(postJobs);
             props.pagekey({isAddPage:false})
             toast.success('Added Job Successfuly', {autoClose:500})
         }

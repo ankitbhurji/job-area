@@ -1,6 +1,6 @@
 import axios from "axios";
 
-function EditJobDetails(allInputs, allSkills) {
+async function EditJobDetails(allInputs, allSkills) {
     const time =  new Date()
     const payload = {
         userId:             allInputs._id,
@@ -17,15 +17,19 @@ function EditJobDetails(allInputs, allSkills) {
         requiredSkill:      allSkills, 
         time:               time
     }
-    axios({
+    const editSuccess = await axios({
         method: 'put',
-        url: 'http://localhost:3001/user/editdetails',
+        // url: 'http://localhost:3001/user/editdetails',
+        url: 'https://job-area-backend.onrender.com/user/editdetails',
         data: payload, 
 
-    }).then(function(response) {
-        console.log(response);
-    }).catch(function (error){
-        console.log(error);});
+    })
+    return editSuccess
+    // .then(function(response) {
+    //     console.log(response);
+    //     return editSuccess
+    // }).catch(function (error){
+    //     console.log(error);});
 }
 
 export default EditJobDetails;

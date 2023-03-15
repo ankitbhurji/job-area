@@ -16,15 +16,19 @@ async function AddJobApi(allInputs) {
         requiredSkill:      allInputs.requiredSkill,
         time:               time
     }
-    axios({
+    const postData = await axios({
         method: 'post',
         url: 'http://localhost:3001/user/addjob',
+        // url: 'https://job-area-backend.onrender.com/user/addjob',
         data: payload, 
 
-    }).then(function(response) {
-        console.log(response);
-    }).catch(function (error){
-        console.log(error);});
+    })
+    return postData;
+
+    // .then(function(response) {
+    //     console.log(response);
+    // }).catch(function (error){
+    //     console.log(error);});
 }
 
 export default AddJobApi;

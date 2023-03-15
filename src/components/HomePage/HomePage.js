@@ -23,6 +23,9 @@ import { TbCurrencyRupee } from 'react-icons/tb';
 import { MdPeopleAlt } from 'react-icons/md';
 
 
+import FindJobsApi1 from '../../api/FindJobApi1';
+
+
 
 
 
@@ -31,8 +34,8 @@ function HomePage() {
 
     const [skills, setSkills] = useState([])
     const [pageKeys, setPageKeys] = useState({
-        isAddPage:false,
-        isEditPage:false
+        // isAddPage:false,
+        // isEditPage:false
     })
     const [skillData, setSkillData] = useState([{}])
     const [jobData, setJobData] = useState([{}])
@@ -40,6 +43,7 @@ function HomePage() {
     const [editJobData, setEditJobData] = useState([{}])
     const [searchText, setSearchText] = useState('')
     const debouncedValue = useDebounce(searchText, 1000)
+
 
     function selectSkills(skill){
         if(!(skill=="SELECT")){
@@ -60,7 +64,11 @@ function HomePage() {
     }
 
     function editJob(data){
-        setPageKeys({...pageKeys, isEditPage:true})
+        setPageKeys({
+            ...pageKeys,
+             isAddPage:false,
+            isEditPage:true
+        })
         setEditJobData(data)
     }
 
@@ -85,7 +93,7 @@ function HomePage() {
     
     async function getJobsApi(){
         const getJobData = await FindJobsApi(skills)
-        setJobData(getJobData.data)
+        // setJobData(getJobData.data)
     }
 
     async function searchField(){
@@ -93,21 +101,42 @@ function HomePage() {
             const searchJob = await SearchJobsApi(debouncedValue)
             setJobData(searchJob.data)
         }else{
-            getJobsApi()
+            // getJobsApi()
+            getJobApi1()
         }
     }
     
+
+    async function getJobApi1(){
+        let skl;
+        if(skills.length==0){
+            skl = 'null'
+        }else{
+            skl = skills
+        }
+        const getJobData1 = await FindJobsApi1(skl)
+        setJobData(getJobData1.data)
+        // console.log(getJobData1);
+    }
 
 
 
     useEffect(()=>{
         getSkillsApi()
-        getJobsApi()
+        // getJobsApi()
+        getJobApi1()
     }, [skills])
 
     useEffect(()=>{
         searchField()
     }, [debouncedValue])
+
+    useEffect(()=>{
+        getJobApi1()
+    }, [pageKeys])
+
+
+
 
 
 
@@ -269,10 +298,10 @@ function HomePage() {
             </div>
             {
             pageKeys.isAddPage? 
-            <AddPage jobs={jobs} getJobsApi={getJobsApi} pagekey={setPageKeys}/>
+            <AddPage getJobsApi={getJobsApi} pagekey={setPageKeys}/>
             :
             pageKeys.isEditPage?
-            <EditPage jobs={jobs} editJobData={editJobData} pagekey={setPageKeys}/>
+            <EditPage editJobData={editJobData} pagekey={setPageKeys}/>
             :
             ''
             }

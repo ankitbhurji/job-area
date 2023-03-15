@@ -9,7 +9,8 @@ async function FindJobsApi(skillsArr) {
     }
     const findJobs = await axios({
         method: 'post',
-        url: 'http://localhost:3001/user/findjobs',
+        // url: 'http://localhost:3001/user/findjobs',
+        url: 'https://job-area-backend.onrender.com/user/findjobs',
         data: payload, 
 
     })

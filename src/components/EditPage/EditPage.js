@@ -3,6 +3,8 @@ import styles from './EditPage.module.css';
 import EditJobDetails from '../../api/EditJobDetails';
 import { ToastContainer, toast } from 'react-toastify';
 
+import FindJobsApi1 from '../../api/FindJobApi1';
+
 
 function EditPage(props) {
 
@@ -25,7 +27,7 @@ function EditPage(props) {
         }
     }
   
-    function editPage(editedFileds, editedSkills){
+    async function editPage(editedFileds, editedSkills){
         if(!editInputs.companyName){
             toast.error('Please Enter Company Name!')
         }else if(!editInputs.logoUrl){
@@ -48,9 +50,12 @@ function EditPage(props) {
             toast.error("Please Enter Skills!")
         }
         else{
-            EditJobDetails(editedFileds, editedSkills)
-            props.jobs()
-            props.pagekey({isEditPage:false})
+            const demo = await EditJobDetails(editedFileds, editedSkills)
+            props.pagekey({
+                isAddPage:false,
+                isEditPage:false
+            })
+
             toast.success('Added Job Successfuly', {autoClose:500})
         }
     }
