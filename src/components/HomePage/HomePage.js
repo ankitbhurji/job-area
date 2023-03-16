@@ -19,6 +19,7 @@ import SearchJobsApi from '../../api/SearchJobsApi';
 import TimeAgo from "react-timeago";
 import { TbCurrencyRupee } from 'react-icons/tb';
 import { MdPeopleAlt } from 'react-icons/md';
+import { Triangle } from 'react-loader-spinner'
 
 
 
@@ -117,6 +118,10 @@ function HomePage() {
 
     return ( 
         <div>
+            {
+            jobData.length>1
+            ?
+            (
             <div className={styles.container}>
                 <div className={styles.heading_container}>
                     <div className={styles.heading_logo_container}>
@@ -204,14 +209,12 @@ function HomePage() {
                                                 </div>
                                                 <div className={styles.job_info}>
                                                     <div className={styles.job_people}>
-                                                        {/* <div><img src={people}/></div> */}
                                                         <div className={styles.people_logo}>
                                                             <MdPeopleAlt size={22}/>
                                                         </div>
                                                         <div className={styles.job_people_count}>11-50</div>
                                                     </div>
                                                     <div className={styles.job_sallery}>
-                                                        {/* <div><img src={rupee}/></div> */}
                                                         <div className={styles.rupee_logo}>
                                                             <TbCurrencyRupee size={22}/>
                                                         </div>
@@ -256,8 +259,26 @@ function HomePage() {
                             })
                         }
                     </div>
+
                 </div>
             </div>
+            )
+            :
+            (
+            <div className={styles.loader}>
+                <Triangle
+                height="200"
+                width="200"
+                color="#0038FF"
+                ariaLabel="triangle-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+                />
+            </div>
+            )
+            }
+
             {
             pageKeys.isAddPage? 
             <AddPage
