@@ -102,7 +102,7 @@ function AddPage(props) {
                                 <input 
                                 name='monthlySallery' 
                                 onChange={handleInputChange} 
-                                type='text' 
+                                type='number' 
                                 />
                             </div>
                         </div>

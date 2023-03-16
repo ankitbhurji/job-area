@@ -118,7 +118,7 @@ function EditPage(props) {
                                 value={editInputs.monthlySallery} 
                                 name='monthlySallery' 
                                 onChange={handleEditInputChange} 
-                                type='text' 
+                                type='number'
                                 />
                             </div>
                         </div>
