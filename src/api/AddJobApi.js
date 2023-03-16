@@ -3,7 +3,6 @@ import axios from "axios";
 async function AddJobApi(allInputs) {
     const time =  new Date()
     const payload = {
-        // myname:'ankit bhurji'
         companyName:        allInputs.companyName,
         logoUrl:            allInputs.logoUrl,
         jobPosition:        allInputs.jobPosition,
@@ -24,11 +23,6 @@ async function AddJobApi(allInputs) {
 
     })
     return postData;
-
-    // .then(function(response) {
-    //     console.log(response);
-    // }).catch(function (error){
-    //     console.log(error);});
 }
 
 export default AddJobApi;

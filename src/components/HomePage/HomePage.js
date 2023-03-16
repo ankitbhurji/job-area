@@ -10,32 +10,25 @@ import AddPage from '../AddPage/AddPage';
 import { useNavigate } from "react-router-dom";
 import EditPage from '../EditPage/EditPage';
 import GetSKillsAPi from '../../api/GetSkillsApi';
-import FindJobsApi from '../../api/FindJobsApi';
+import FindJobsApi from '../../api/FindJobApi';
 import useClipboard from 'react-hook-clipboard'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDebounce } from 'use-lodash-debounce'
 import SearchJobsApi from '../../api/SearchJobsApi';
 import TimeAgo from "react-timeago";
-
-import AllJobs from '../../api/AllJobs';
 import { TbCurrencyRupee } from 'react-icons/tb';
 import { MdPeopleAlt } from 'react-icons/md';
 
 
-import FindJobsApi1 from '../../api/FindJobApi1';
-
-
-
-
 
 function HomePage() {
-    const navigate = useNavigate();
 
+    const navigate = useNavigate();
     const [skills, setSkills] = useState([])
     const [pageKeys, setPageKeys] = useState({
-        // isAddPage:false,
-        // isEditPage:false
+        isAddPage:false,
+        isEditPage:false
     })
     const [skillData, setSkillData] = useState([{}])
     const [jobData, setJobData] = useState([{}])
@@ -81,19 +74,9 @@ function HomePage() {
         toast.success("Link Copied!")
     }
 
-    async function jobs(){
-        const allJobs = await AllJobs()
-        setJobData(allJobs.data)
-    }
-    
     async function getSkillsApi(){
         const getSkills = await GetSKillsAPi()
         setSkillData(getSkills.data)
-    }
-    
-    async function getJobsApi(){
-        const getJobData = await FindJobsApi(skills)
-        // setJobData(getJobData.data)
     }
 
     async function searchField(){
@@ -101,43 +84,33 @@ function HomePage() {
             const searchJob = await SearchJobsApi(debouncedValue)
             setJobData(searchJob.data)
         }else{
-            // getJobsApi()
-            getJobApi1()
+            getJobApi()
         }
     }
     
-
-    async function getJobApi1(){
-        let skl;
+    async function getJobApi(){
+        let newSkills;
         if(skills.length==0){
-            skl = 'null'
+            newSkills = 'null'
         }else{
-            skl = skills
+            newSkills = skills
         }
-        const getJobData1 = await FindJobsApi1(skl)
-        setJobData(getJobData1.data)
-        // console.log(getJobData1);
+        const getJobData = await FindJobsApi(newSkills)
+        setJobData(getJobData.data)
     }
 
-
-
     useEffect(()=>{
+        getJobApi()
         getSkillsApi()
-        // getJobsApi()
-        getJobApi1()
     }, [skills])
 
     useEffect(()=>{
         searchField()
-    }, [debouncedValue])
+    }, [debouncedValue, pageKeys])
 
-    useEffect(()=>{
-        getJobApi1()
-    }, [pageKeys])
-
-
-
-
+    // useEffect(()=>{
+    //     getJobApi()
+    // }, [pageKeys])
 
 
 
@@ -145,25 +118,37 @@ function HomePage() {
         <div>
             <div className={styles.container}>
                 <div className={styles.heading_container}>
-                    {/* <div> */}
-                        <div className={styles.heading_logo_container}>
-                            <div className={styles.header_logo}><img src={mountain}/></div>
-                            <div className={styles.header_find_my_job}>Findmyjob</div>
-                        </div>
-                    {/* </div> */}
+                    <div className={styles.heading_logo_container}>
+                        <div className={styles.header_logo}><img src={mountain}/></div>
+                        <div className={styles.header_find_my_job}>Findmyjob</div>
+                    </div>
                     <div className={styles.heading_photo_container}>
                         <div className={styles.header_hello}>Hello! Recruiter</div>
-                        <img className={styles.header_photo} src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="Avatar" style={{width:'70px', height:'70px'}} />
+                        <img 
+                        className={styles.header_photo} 
+                        src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" 
+                        alt="Avatar" 
+                        style={{width:'70px', height:'70px'}} 
+                        />
                     </div>
                 </div>
 
-                <div className={styles.header_tagline}>Find your next remote job at companies like <label>swigy</label>, <label>nike</label>, and <label>cuvette</label>.</div>
+                <div className={styles.header_tagline}>
+                    Find your next remote job at companies like <label>swigy</label>, <label>nike</label>, and <label>cuvette</label>.
+                </div>
 
                 <div className={styles.job_container}>
                     <div className={styles.job_search_container}>
                         <div className={styles.job_search_top}>
                             <div className={styles.job_search_icon}><BiSearch/></div>
-                            <div className={styles.job_search}><input onChange={(e)=>{setSearchText(e.target.value)}} value={searchText} type='search' placeholder='Job title'/></div>
+                            <div className={styles.job_search}>
+                                <input
+                                 onChange={(e)=>{setSearchText(e.target.value)}} 
+                                 value={searchText} 
+                                 type='search' 
+                                 placeholder='Job title'
+                                />
+                            </div>
                             <div className={styles.job_addjob}>
                                 <button onClick={addJob}>+ Add Job</button>
                             </div>
@@ -179,18 +164,16 @@ function HomePage() {
                                                 return <option key={index}>{values.skill.toUpperCase()}</option>
                                             })
                                         }
-                                        {/* <option>HTML</option>
-                                        <option>CSS</option>
-                                        <option>JAVASCRIPT</option>
-                                        <option>REACT</option>
-                                        <option>NODE</option> */}
                                     </select>
                                 </div>
                                 <div className={styles.skill_list_container}>
                                     {
                                     skills.map((skill, index)=>{
                                         return(
-                                            <div key={index} className={styles.skill_list}>{skill}<img onClick={()=>{removeSkill(index)}} src={close}/></div>
+                                            <div key={index} className={styles.skill_list}>
+                                                {skill}
+                                                <img onClick={()=>{removeSkill(index)}} src={close}/>
+                                            </div>
                                             )
                                         })
                                     }
@@ -202,48 +185,17 @@ function HomePage() {
                     <div className={styles.job_count_container}>{jobData.length} + Jobs</div>
                     
                     <div className={styles.job_list_containers}>
-                        {/* <div className={styles.job_list_container}>
-                            <div className={styles.job_list_image}><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="Avatar" style={{width:'52px', height:'52px'}}/></div>
-                            <div className={styles.job_list_info}>
-                                <div className={styles.list_info_1}>
-                                    <div className={styles.job_position}>
-                                        Frontend Developer
-                                    </div>
-                                    <div className={styles.job_info}>
-                                        <div className={styles.job_people}>
-                                            <div><img src={people}/></div>
-                                            <div className={styles.job_people_count}>11-50</div>
-                                        </div>
-                                        <div className={styles.job_sallery}>
-                                            <div><img src={rupee}/></div>
-                                            <div className={styles.job_people_sallery}>50000</div>
-                                        </div>
-                                        <div className={styles.job_location}>
-                                            <div><img src={flag}/></div>
-                                            <div className={styles.job_people_location}>Delhi</div>
-                                        </div>
-                                    </div>
-                                    <div className={styles.job_type_container}>
-                                        <div className={styles.job_located}>Office</div>
-                                        <div className={styles.job_type}>Full time</div>
-                                    </div>
-                                </div>
-                                <div className={styles.job_edit_add_container}>
-                                    <div className={styles.job_post_time}>2 hours ago</div>
-                                    <div className={styles.job_buttons_container}>
-                                        <div className={styles.edit_button}><button onClick={editJob}>Edit job</button></div>
-                                        <div className={styles.copy_link_button}><button>Copy Link</button></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
-
-
                         {
                             jobData.map((values, index)=>{
                                 return(
                                     <div key={index} className={styles.job_list_container}>
-                                        <div onClick={()=>{jobDetails(values._id)}} className={styles.job_list_image}><img src={values.logoUrl} alt="Avatar" style={{width:'52px', height:'52px'}}/></div>
+                                        <div onClick={()=>{jobDetails(values._id)}} className={styles.job_list_image}>
+                                            <img 
+                                            src={values.logoUrl} 
+                                            alt="Avatar" 
+                                            style={{width:'52px', height:'52px'}}
+                                            />
+                                        </div>
                                         <div onClick={()=>{jobDetails(values._id)}} className={styles.job_list_info}>
                                             <div className={styles.list_info_1}>
                                                 <div className={styles.job_position}>
@@ -252,63 +204,77 @@ function HomePage() {
                                                 <div className={styles.job_info}>
                                                     <div className={styles.job_people}>
                                                         {/* <div><img src={people}/></div> */}
-                                                        <div className={styles.people_logo}><MdPeopleAlt size={22}/></div>
+                                                        <div className={styles.people_logo}>
+                                                            <MdPeopleAlt size={22}/>
+                                                        </div>
                                                         <div className={styles.job_people_count}>11-50</div>
                                                     </div>
                                                     <div className={styles.job_sallery}>
                                                         {/* <div><img src={rupee}/></div> */}
-                                                        <div className={styles.rupee_logo}><TbCurrencyRupee size={22}/></div>
-                                                        <div className={styles.job_people_sallery}>{values.monthlySallery}</div>
+                                                        <div className={styles.rupee_logo}>
+                                                            <TbCurrencyRupee size={22}/>
+                                                        </div>
+                                                        <div className={styles.job_people_sallery}>
+                                                            {values.monthlySallery}
+                                                        </div>
                                                     </div>
                                                     <div className={styles.job_location}>
-                                                        <div><img src={flag}/></div>
-                                                        <div className={styles.job_people_location}>{values.location}</div>
+                                                        <div>
+                                                            <img src={flag}/>
+                                                        </div>
+                                                        <div className={styles.job_people_location}>
+                                                            {values.location}
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className={styles.job_type_container}>
-                                                    <div className={styles.job_located}>{values.workFrom}</div>
-                                                    <div className={styles.job_type}>{values.jobType}</div>
+                                                    <div className={styles.job_located}>
+                                                        {values.workFrom}
+                                                    </div>
+                                                    <div className={styles.job_type}>
+                                                        {values.jobType}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className={styles.job_edit_add_container}>
-                                            <div className={styles.job_post_time}><TimeAgo date={values.time} /></div>
+                                            <div className={styles.job_post_time}>
+                                                <TimeAgo date={values.time} />
+                                            </div>
                                             <div className={styles.job_buttons_container}>
-                                                <div className={styles.edit_button}><button onClick={()=>{editJob(values)}}>Edit job</button></div>
-                                                <div className={styles.copy_link_button}><button onClick={()=>{copyLink(values._id)}}>Copy Link</button></div>
+                                                <div className={styles.edit_button}>
+                                                    <button onClick={()=>{editJob(values)}}>Edit job</button>
+                                                </div>
+                                                <div className={styles.copy_link_button}>
+                                                    <button onClick={()=>{copyLink(values._id)}}>Copy Link</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>  
                                 )
                             })
                         }
-
-                        
-                        
-                        {/* <div className={styles.job_list_container}></div>
-                        <div className={styles.job_list_container}></div>
-                        <div className={styles.job_list_container}></div>
-                        <div className={styles.job_list_container}></div>
-                        <div className={styles.job_list_container}></div>
-                        <div className={styles.job_list_container}></div>
-                        <div className={styles.job_list_container}></div>
-                        <div className={styles.job_list_container}></div> */}
                     </div>
                 </div>
             </div>
             {
             pageKeys.isAddPage? 
-            <AddPage getJobsApi={getJobsApi} pagekey={setPageKeys}/>
+            <AddPage
+             pagekey={setPageKeys}
+            />
             :
             pageKeys.isEditPage?
-            <EditPage editJobData={editJobData} pagekey={setPageKeys}/>
+            <EditPage
+             editJobData={editJobData} 
+             pagekey={setPageKeys}
+            />
             :
             ''
             }
             <ToastContainer
-                position="top-center"
-                autoClose={false}
-                closeOnClick
+            position="top-center"
+            autoClose={false}
+            closeOnClick
             />
         </div>
      );

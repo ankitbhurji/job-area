@@ -245,11 +245,13 @@
 .job_info{
     display: flex;
     margin: 8px 0 0 0;
+    /* background-color: red;   */
 }
 .job_people{
     display: flex;
     margin-right: 30px;
     /* background-color: red; */
+    width: 120px;
 }
 .people_logo{
     color: #9C9C9C;
@@ -262,7 +264,8 @@
 .job_sallery{
     display: flex;
     margin-right: 30px;
-    /* background-color: red; */
+    /* background-color: cyan; */
+    width: 150px;
 }
 .rupee_logo{
     color: #9C9C9C;
@@ -275,7 +278,8 @@
 }
 .job_location{
     display: flex;
-    /* background-color: red; */
+    /* background-color: magenta; */
+    width: 200px;
 }
 .job_people_location{
     font-size: 20px;
@@ -301,7 +305,7 @@
     font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    margin: 0 0 0 35px;
+    margin: 0 0 0 82px;
 }
 
 .job_edit_add_container{

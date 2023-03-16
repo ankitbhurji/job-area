@@ -7,21 +7,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function AddPage(props) {
-
     
-
-    const [allInputs, setAllInputs] = useState({
-        // companyName:'',
-        // logoUrl:'',
-        // jobPosition:'',
-        // monthlySallery:'',
-        // jobType:'',
-        // workFrom:'',
-        // location:'',
-        // jobDiscription:'',
-        // aboutCompany:'',
-        // requiredSkill:''
-   })
+    const [allInputs, setAllInputs] = useState({})
 
     function handleInputChange(e){
         setAllInputs({
@@ -33,7 +20,6 @@ function AddPage(props) {
     function closePage(){
         props.pagekey({isAddPage:false})
     }
-//    console.log(allInputs.companyName);
 
     async function addjob(){
         if(!allInputs.companyName){
@@ -58,9 +44,7 @@ function AddPage(props) {
             toast.error("Please Enter Skills!")
         }
         else{
-            // console.log('api call');
             const postJobs = await AddJobApi(allInputs)
-            // console.log(postJobs);
             props.pagekey({isAddPage:false})
             toast.success('Added Job Successfuly', {autoClose:500})
         }
@@ -84,19 +68,43 @@ function AddPage(props) {
                     <div className={styles.add_page_input_container}>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Company Name</div>
-                            <div className={styles.field}><input name='companyName' onChange={handleInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <input 
+                                name='companyName' 
+                                onChange={handleInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Add Logo Url</div> 
-                            <div className={styles.field}><input name='logoUrl' onChange={handleInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <input 
+                                name='logoUrl' 
+                                onChange={handleInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Job Position</div>
-                            <div className={styles.field}><input name='jobPosition' onChange={handleInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <input 
+                                name='jobPosition' 
+                                onChange={handleInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Monthly Sallery</div>
-                            <div className={styles.field}><input name='monthlySallery' onChange={handleInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <input 
+                                name='monthlySallery' 
+                                onChange={handleInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Job Type</div>
@@ -121,19 +129,43 @@ function AddPage(props) {
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Location</div>
-                            <div className={styles.field}><input name='location' onChange={handleInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <input 
+                                name='location' 
+                                onChange={handleInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Job Discription</div>
-                            <div className={styles.field}><textarea name='jobDiscription' onChange={handleInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <textarea 
+                                name='jobDiscription' 
+                                onChange={handleInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>About Company</div>
-                            <div className={styles.field}><textarea name='aboutCompany' onChange={handleInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <textarea 
+                                name='aboutCompany' 
+                                onChange={handleInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Skill Required</div>
-                            <div className={styles.field}><input name='requiredSkill' onChange={handleInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <input 
+                                name='requiredSkill' 
+                                onChange={handleInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.button_container}>
                             <div className={styles.cancel_button}><button onClick={closePage}>Cancel</button></div>

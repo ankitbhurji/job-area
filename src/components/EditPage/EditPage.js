@@ -3,9 +3,6 @@ import styles from './EditPage.module.css';
 import EditJobDetails from '../../api/EditJobDetails';
 import { ToastContainer, toast } from 'react-toastify';
 
-import FindJobsApi1 from '../../api/FindJobApi1';
-
-
 function EditPage(props) {
 
     const data = props.editJobData
@@ -13,10 +10,6 @@ function EditPage(props) {
     const [skill, setSkill] = useState('')
 
     function handleEditInputChange(e){
-        // setEditInputs({
-        //     ...editInputs,
-        //     [e.target.name]: e.target.value
-        // })
         if(e.target.name === 'requiredSkill'){
             setSkill(e.target.value)
         }else{
@@ -50,7 +43,7 @@ function EditPage(props) {
             toast.error("Please Enter Skills!")
         }
         else{
-            const demo = await EditJobDetails(editedFileds, editedSkills)
+            const editedJobData = await EditJobDetails(editedFileds, editedSkills)
             props.pagekey({
                 isAddPage:false,
                 isEditPage:false
@@ -88,24 +81,56 @@ function EditPage(props) {
                     <div className={styles.add_page_input_container}>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Company Name</div>
-                            <div className={styles.field}><input value={editInputs.companyName} name='companyName' onChange={handleEditInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <input 
+                                value={editInputs.companyName} 
+                                name='companyName' 
+                                onChange={handleEditInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Add Logo Url</div>
-                            <div className={styles.field}><input value={editInputs.logoUrl} name='logoUrl' onChange={handleEditInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <input 
+                                value={editInputs.logoUrl} 
+                                name='logoUrl' 
+                                onChange={handleEditInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Job Position</div>
-                            <div className={styles.field}><input value={editInputs.jobPosition} name='jobPosition' onChange={handleEditInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <input 
+                                value={editInputs.jobPosition} 
+                                name='jobPosition' 
+                                onChange={handleEditInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Monthly Sallery</div>
-                            <div className={styles.field}><input value={editInputs.monthlySallery} name='monthlySallery' onChange={handleEditInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <input 
+                                value={editInputs.monthlySallery} 
+                                name='monthlySallery' 
+                                onChange={handleEditInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Job Type</div>
                             <div className={styles.field}>
-                                <select value={editInputs.jobType} name='jobType' onChange={handleEditInputChange}>
+                                <select 
+                                value={editInputs.jobType} 
+                                name='jobType' 
+                                onChange={handleEditInputChange}
+                                >
                                     <option>Select</option>
                                     <option>Full Time</option>
                                     <option>Part Time</option>
@@ -116,7 +141,11 @@ function EditPage(props) {
                         <div className={styles.input_container}>
                             <div className={styles.label}>Remote/Office</div>
                             <div className={styles.field}>
-                                <select value={editInputs.workFrom} name='workFrom' onChange={handleEditInputChange}>
+                                <select 
+                                value={editInputs.workFrom} 
+                                name='workFrom' 
+                                onChange={handleEditInputChange}
+                                >
                                     <option>Select</option>
                                     <option>Remote</option>
                                     <option>Office</option>
@@ -125,23 +154,57 @@ function EditPage(props) {
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Location</div>
-                            <div className={styles.field}><input value={editInputs.location} name='location' onChange={handleEditInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <input 
+                                value={editInputs.location} 
+                                name='location' 
+                                onChange={handleEditInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Job Discription</div>
-                            <div className={styles.field}><textarea value={editInputs.jobDiscription} name='jobDiscription' onChange={handleEditInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <textarea 
+                                value={editInputs.jobDiscription} 
+                                name='jobDiscription' 
+                                onChange={handleEditInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>About Company</div>
-                            <div className={styles.field}><textarea value={editInputs.aboutCompany} name='aboutCompany' onChange={handleEditInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <textarea 
+                                value={editInputs.aboutCompany} 
+                                name='aboutCompany' 
+                                onChange={handleEditInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.input_container}>
                             <div className={styles.label}>Skill Required</div>
-                            <div className={styles.field}><input value={skill} name='requiredSkill' onChange={handleEditInputChange} type='text' /></div>
+                            <div className={styles.field}>
+                                <input 
+                                value={skill} 
+                                name='requiredSkill' 
+                                onChange={handleEditInputChange} 
+                                type='text' 
+                                />
+                            </div>
                         </div>
                         <div className={styles.button_container}>
-                            <div className={styles.cancel_button}><button onClick={closePage}>Cancel</button></div>
-                            <div className={styles.add_button}><button onClick={()=>{editPage(editInputs, skill)}}>+ Edit Job</button></div>
+                            <div className={styles.cancel_button}>
+                                <button onClick={closePage}>Cancel</button>
+                            </div>
+                            <div className={styles.add_button}>
+                                <button 
+                                onClick={()=>{editPage(editInputs, skill)}}>+ Edit Job
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

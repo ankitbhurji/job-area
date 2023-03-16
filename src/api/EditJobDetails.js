@@ -19,17 +19,12 @@ async function EditJobDetails(allInputs, allSkills) {
     }
     const editSuccess = await axios({
         method: 'put',
-        // url: 'http://localhost:3001/user/editdetails',
-        url: 'https://job-area-backend.onrender.com/user/editdetails',
+        url: 'http://localhost:3001/user/editdetails',
+        // url: 'https://job-area-backend.onrender.com/user/editdetails',
         data: payload, 
 
     })
     return editSuccess
-    // .then(function(response) {
-    //     console.log(response);
-    //     return editSuccess
-    // }).catch(function (error){
-    //     console.log(error);});
 }
 
 export default EditJobDetails;
