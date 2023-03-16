@@ -219,7 +219,7 @@
 }
 .job_list_image{
     /* margin: auto 0 auto 0; */
-    margin-top: 15px;
+    margin-top: 14px;
     /* background-color: red; */
     width: 65px;
 }
@@ -232,7 +232,7 @@
     display: flex;
     /* justify-content: space-between; */
     /* background-color: gray; */
-    width: 85%;
+    width: 75%;
 }
 .list_info_1{
     margin: auto 0  auto 0;

@@ -91,8 +91,8 @@ function DetailsPage() {
                             <div className={styles.tag_info}>
                                 <div className={styles.rupee_logo}>
                                     <TbCurrencyRupee size={22}/>
+                                    <div>{jobInformation.monthlySallery} per month</div>
                                 </div>
-                                {jobInformation.monthlySallery} per month
                             </div>
                         </div>
                         <div className={styles.Mode_container}>

@@ -48,7 +48,6 @@ function EditPage(props) {
                 isAddPage:false,
                 isEditPage:false
             })
-
             toast.success('Added Job Successfuly', {autoClose:1000})
         }
     }

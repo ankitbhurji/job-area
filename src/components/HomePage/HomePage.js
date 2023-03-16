@@ -114,6 +114,7 @@ function HomePage() {
 
 
 
+
     return ( 
         <div>
             <div className={styles.container}>
@@ -186,7 +187,7 @@ function HomePage() {
                     
                     <div className={styles.job_list_containers}>
                         {
-                            jobData.length>1 && jobData.map((values, index)=>{
+                            jobData.map((values, index)=>{
                                 return(
                                     <div key={index} className={styles.job_list_container}>
                                         <div onClick={()=>{jobDetails(values._id)}} className={styles.job_list_image}>
