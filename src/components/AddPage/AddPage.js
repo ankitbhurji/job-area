@@ -46,7 +46,7 @@ function AddPage(props) {
         else{
             const postJobs = await AddJobApi(allInputs)
             props.pagekey({isAddPage:false})
-            toast.success('Added Job Successfuly', {autoClose:500})
+            toast.success('Added Job Successfuly', {autoClose:1000})
         }
    }
 
