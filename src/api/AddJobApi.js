@@ -17,8 +17,8 @@ async function AddJobApi(allInputs) {
     }
     const postData = await axios({
         method: 'post',
-        url: 'http://localhost:3001/user/addjob',
-        // url: 'https://job-area-backend.onrender.com/user/addjob',
+        // url: 'http://localhost:3001/user/addjob',
+        url: 'https://job-area-backend.onrender.com/user/addjob',
         data: payload, 
 
     })

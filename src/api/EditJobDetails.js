@@ -19,8 +19,8 @@ async function EditJobDetails(allInputs, allSkills) {
     }
     const editSuccess = await axios({
         method: 'put',
-        url: 'http://localhost:3001/user/editdetails',
-        // url: 'https://job-area-backend.onrender.com/user/editdetails',
+        // url: 'http://localhost:3001/user/editdetails',
+        url: 'https://job-area-backend.onrender.com/user/editdetails',
         data: payload, 
 
     })
