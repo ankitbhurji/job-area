@@ -37,6 +37,7 @@ function HomePage() {
     const [editJobData, setEditJobData] = useState([{}])
     const [searchText, setSearchText] = useState('')
     const debouncedValue = useDebounce(searchText, 1000)
+    const [loader, setLoader] = useState(false)
 
 
     function selectSkills(skill){
@@ -98,6 +99,7 @@ function HomePage() {
         }
         const getJobData = await FindJobsApi(newSkills)
         setJobData(getJobData.data)
+        setLoader(true)
     }
 
     useEffect(()=>{
@@ -119,7 +121,7 @@ function HomePage() {
     return ( 
         <div>
             {
-            jobData.length>1
+            loader
             ?
             (
             <div className={styles.container}>
